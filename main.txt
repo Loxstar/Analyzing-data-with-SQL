@@ -1,0 +1,44 @@
+1) Were there more male or female voters in Greensboro?
+
+Select count(*) from votes where gender = 'male';
+Answer: 398207
+
+Select count(*) from votes where gender = 'female';
+Answer: 401793
+
+2) What is the average age of voters in Orlando?
+
+Select avg(votes.age) from votes where votes."cityId"= 77;
+Answer: 51.45625
+
+3) Which state has the most cities listed?
+
+Select "stateId" from cities group by "stateId" 
+order by count(*) desc limit 1; 
+Answer: 3 (California)
+
+4) Which state had the most votes placed?
+
+Select count(cities."stateId"), cities."stateId" 
+from cities join votes on cities.id=votes."cityId" 
+group by cities."stateId" order by count(cities."stateId") desc;
+Answer: 3 (California)
+
+5) What percentage of cities passed the minimum wage issue (> 50% of votes)?
+
+Answer:
+
+6) How many of the issues were approved in each of the following cities? 
+An issue is 'approved' if it got more than 50% of the votes.
+
+Select count(*), cities.id, issues.id
+from issues
+join votes on votes."issueId"=issues.id
+join cities on cities.id = votes."cityId"
+where in_Favor = 't' and cities.id in (8, 24, 40, 56)
+group by cities.id, issues.id
+having count(*) > 100 order by cities.id;
+
+
+
+
